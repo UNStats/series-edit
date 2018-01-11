@@ -3,7 +3,7 @@
   "name": "@unstats/series-edit",
   "version": "0.0.0",
   "description": "UNStats Series-Edit App",
-  "homepage": "https://github.com/UNStats/series-edit",
+  "homepage": "https://unstats.github.io/series-edit/",
   "bugs": "https://github.com/UNStats/series-edit/issues",
   "author": "Thilo Maier <maier@un.org>",
   "license": "MIT",
@@ -14,9 +14,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "format": "prettier --write \"src/**/*.{js,jsx,md}\"",
     "lint": "eslint src/**/*.{js,jsx}",
     "precommit": "lint-staged",
+    "release": "release",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "test": "react-scripts test --env=jsdom",
@@ -30,6 +32,7 @@
     "axios": "^0.17.1",
     "axios-mock-adapter": "^1.10.0",
     "deep-freeze": "^0.0.1",
+    "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
     "prettier": "^1.9.2",
@@ -42,6 +45,7 @@
     "redux": "^3.7.2",
     "redux-mock-store": "^1.4.0",
     "redux-thunk": "^2.2.0",
+    "release": "^3.0.3",
     "reselect": "^3.0.1"
   },
   "eslintConfig": {
