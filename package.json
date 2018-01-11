@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "name": "@unstats/series-edit",
+  "version": "0.0.0",
+  "lint-staged": {
+    "*.{js,jsx,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "format": "prettier --write \"src/**/*.{js,jsx,md}\"",
+    "lint": "eslint src/**/*.{js,jsx}",
+    "precommit": "lint-staged",
+    "test": "react-scripts test --env=jsdom",
+    "test:coverage": "react-scripts test --env=jsdom --coverage",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@unstats/components": "https://github.com/UNStats/components/releases/download/0.1.0/unstats-components-v0.1.0.tgz",
+    "axios": "^0.17.1",
+    "axios-mock-adapter": "^1.10.0",
+    "deep-freeze": "^0.0.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.0",
+    "prettier": "^1.9.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-mock-store": "^1.4.0",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}
