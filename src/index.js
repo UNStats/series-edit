@@ -1,8 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import App from "./containers/App";
+import reducer from "./reducers";
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+const preloadedState = window.preloadedState;
+delete window.preloadedState;
+
+const middleware = [thunk];
+const store = createStore(
+  reducer,
+  preloadedState,
+  applyMiddleware(...middleware)
+);
+
+ReactDOM.render(<App store={store} />, document.getElementById("root"));
