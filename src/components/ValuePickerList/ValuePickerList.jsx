@@ -6,13 +6,7 @@ import { ValuePicker } from "@unstats/components";
 class ValuePickerList extends Component {
   constructor(props) {
     super(props);
-    this.handleAddValuePicker = this.handleAddValuePicker.bind(this);
     this.handleRemoveValuePicker = this.handleRemoveValuePicker.bind(this);
-  }
-
-  handleAddValuePicker(event) {
-    event.preventDefault();
-    this.props.onAddValuePicker(event.target.value);
   }
 
   handleRemoveValuePicker(event) {

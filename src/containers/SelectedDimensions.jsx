@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addDimensionValue(seriesId, dimensionId, valueId)),
   onRemoveValueCreator: (seriesId, dimensionId) => valueId =>
     dispatch(removeDimensionValue(seriesId, dimensionId, valueId)),
-  onRemoveCreator: seriesId => dimensionId =>
+  onRemoveValuePickerCreator: seriesId => dimensionId =>
     dispatch(removeDimension(seriesId, dimensionId))
 });
 
@@ -30,7 +30,7 @@ const mergeProps = (stateProps, actionProps) => {
   const {
     onAddValueCreator,
     onRemoveValueCreator,
-    onRemoveCreator
+    onRemoveValuePickerCreator
   } = actionProps;
   return {
     list: list.map(dimension => ({
@@ -38,7 +38,7 @@ const mergeProps = (stateProps, actionProps) => {
       onAddValue: onAddValueCreator(seriesId, dimension.key),
       onRemoveValue: onRemoveValueCreator(seriesId, dimension.key)
     })),
-    onRemove: onRemoveCreator(seriesId)
+    onRemoveValuePicker: onRemoveValuePickerCreator(seriesId)
   };
 };
 
