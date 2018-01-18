@@ -29,9 +29,8 @@
   "dependencies": {
     "@unstats/components":
       "https://github.com/UNStats/components/releases/download/0.1.0/unstats-components-v0.1.0.tgz",
-    "axios": "^0.17.1",
-    "axios-mock-adapter": "^1.10.0",
     "deep-freeze": "^0.0.1",
+    "fetch-mock": "^6.0.0-beta.7",
     "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
@@ -39,10 +38,11 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
-    "react-scripts": "1.0.17",
+    "react-scripts": "^1.1.0",
     "react-styleguidist": "^6.1.0",
     "rebass": "^1.0.4",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
     "redux-mock-store": "^1.4.0",
     "redux-thunk": "^2.2.0",
     "release": "^3.0.3",

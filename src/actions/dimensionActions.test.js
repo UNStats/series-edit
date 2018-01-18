@@ -1,12 +1,11 @@
-import configureMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
-import axios from "axios"
-import MockAdapter from "axios-mock-adapter"
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import mockFetch from "fetch-mock";
 import {
   addDimension,
   fetchDimensions,
   removeDimension
-} from "./dimensionActions"
+} from "./dimensionActions";
 import {
   ADD_DIMENSION,
   FETCH_DIMENSIONS,
@@ -16,53 +15,47 @@ import {
   FETCH_DIMENSION_VALUES_FULFILLED,
   FETCH_DIMENSION_VALUES_REJECTED,
   REMOVE_DIMENSION
-} from "../constants/ActionTypes"
+} from "../constants/ActionTypes";
 
 describe("dimensionActions", () => {
-  test("removeDimension", () => {
-    expect(removeDimension("999", "99")).toEqual({
-      type: REMOVE_DIMENSION,
-      payload: {seriesId: "999", dimensionId: "99"}
-    })
-  })
-
   describe("addDimension", () => {
-    let mockAxios
-    let mockStore
+    let mockStore;
 
     beforeAll(() => {
-      mockAxios = new MockAdapter(axios)
-      mockStore = configureMockStore([thunk])
-    })
-
-    afterAll(() => {
-      mockAxios.restore()
-    })
+      mockStore = configureMockStore([thunk]);
+    });
 
     afterEach(() => {
-      mockAxios.reset()
-    })
+      mockFetch.restore();
+    });
 
     test("successful fetchDimensionValues API call", () => {
-      mockAxios
-        .onPost("/DimensionValues/getAddValuesBySerie", {
-          serieID: 999,
-          dimensionID: 99
-        })
-        .reply(200, [
-          {
-            id: 1,
-            value: "value-1"
-          },
-          {
-            id: 2,
-            value: "value-2"
-          },
-          {
-            id: 3,
-            value: "value-3"
+      mockFetch.get(
+        "/DimensionValues/getAddValuesBySerie",
+        {
+          status: 200,
+          body: [
+            {
+              id: 1,
+              value: "value-1"
+            },
+            {
+              id: 2,
+              value: "value-2"
+            },
+            {
+              id: 3,
+              value: "value-3"
+            }
+          ]
+        },
+        {
+          query: {
+            serieID: "999",
+            dimensionID: "99"
           }
-        ])
+        }
+      );
 
       const expectedActions = [
         {
@@ -100,22 +93,28 @@ describe("dimensionActions", () => {
             ]
           }
         }
-      ]
+      ];
 
       // Content of store does not matter for this test.
-      const store = mockStore({})
+      const store = mockStore({});
       return store.dispatch(addDimension("999", "99")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      })
-    })
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
 
     test("unsuccessful fetchDimensionValues API call", () => {
-      mockAxios
-        .onPost("/DimensionValues/getAddValuesBySerie", {
-          serieID: 999,
-          dimensionID: 99
-        })
-        .reply(500, "internal server error")
+      mockFetch.get(
+        "/DimensionValues/getAddValuesBySerie",
+        {
+          status: 500
+        },
+        {
+          query: {
+            serieID: "999",
+            dimensionID: "99"
+          }
+        }
+      );
 
       const expectedActions = [
         {
@@ -139,59 +138,66 @@ describe("dimensionActions", () => {
             dimensionId: "99",
             error: {
               name: "Error",
-              message: "Request failed with status code 500"
+              message:
+                "Request failed with status code 500 (Internal Server Error)"
             }
           }
         }
-      ]
+      ];
 
       // Content of store does not matter for this test.
-      const store = mockStore({})
+      const store = mockStore({});
       return store.dispatch(addDimension("999", "99")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      })
-    })
-  })
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+
+  test("removeDimension", () => {
+    expect(removeDimension("999", "99")).toEqual({
+      type: REMOVE_DIMENSION,
+      payload: { seriesId: "999", dimensionId: "99" }
+    });
+  });
 
   describe("fetchDimensions", () => {
-    let mockAxios
-    let mockStore
+    let mockStore;
 
     beforeAll(() => {
-      mockAxios = new MockAdapter(axios)
-      mockStore = configureMockStore([thunk])
-    })
-
-    afterAll(() => {
-      mockAxios.restore()
-    })
+      mockStore = configureMockStore([thunk]);
+    });
 
     afterEach(() => {
-      mockAxios.reset()
-    })
+      mockFetch.restore();
+    });
 
     test("successful API call", () => {
-      mockAxios
-        .onPost("/Dimensions/getAddDimensionBySerie", {
-          serieID: 999
-        })
-        .reply(200, [
-          {
-            id: 1,
-            value: "dimension-1"
-          },
-          {
-            id: 2,
-            value: "dimension-2"
-          },
-          {
-            id: 3,
-            value: "dimension-3"
-          }
-        ])
+      mockFetch.get(
+        "/Dimensions/getAddDimensionBySerie",
+        {
+          status: 200,
+          body: [
+            {
+              id: 1,
+              value: "dimension-1"
+            },
+            {
+              id: 2,
+              value: "dimension-2"
+            },
+            {
+              id: 3,
+              value: "dimension-3"
+            }
+          ]
+        },
+        {
+          query: { serieID: "999" }
+        }
+      );
 
       const expectedActions = [
-        {type: FETCH_DIMENSIONS, payload: {seriesId: "999"}},
+        { type: FETCH_DIMENSIONS, payload: { seriesId: "999" } },
         {
           type: FETCH_DIMENSIONS_FULFILLED,
           payload: {
@@ -212,41 +218,48 @@ describe("dimensionActions", () => {
             ]
           }
         }
-      ]
+      ];
 
       // Content of store does not matter for this test.
-      const store = mockStore({})
+      const store = mockStore({});
       return store.dispatch(fetchDimensions("999")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      })
-    })
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
 
     test("unsuccessful API call", () => {
-      mockAxios
-        .onPost("/Dimensions/getAddDimensionBySerie", {
-          serieID: 999
-        })
-        .reply(500, "internal server error")
+      mockFetch.get(
+        "/Dimensions/getAddDimensionBySerie",
+        {
+          status: 500
+        },
+        {
+          query: {
+            serieID: "999"
+          }
+        }
+      );
 
       const expectedActions = [
-        {type: FETCH_DIMENSIONS, payload: {seriesId: "999"}},
+        { type: FETCH_DIMENSIONS, payload: { seriesId: "999" } },
         {
           type: FETCH_DIMENSIONS_REJECTED,
           payload: {
             seriesId: "999",
             error: {
               name: "Error",
-              message: "Request failed with status code 500"
+              message:
+                "Request failed with status code 500 (Internal Server Error)"
             }
           }
         }
-      ]
+      ];
 
       // Content of store does not matter for this test.
-      const store = mockStore({})
+      const store = mockStore({});
       return store.dispatch(fetchDimensions("999")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      })
-    })
-  })
-})
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+});
