@@ -17,46 +17,40 @@ export const addDimension = (seriesId, dimensionId) => dispatch => {
 
 // Fetch all potentially selectable dimensions for a series. Reducer figures out
 // which dimensions are actually selectable.
-export const fetchDimensions = seriesId => dispatch => {
+export const fetchDimensions = seriesId => async dispatch => {
   dispatch({ type: FETCH_DIMENSIONS, payload: { seriesId } });
   // TODO See comment in dimensionValueActions.js.
-  return fetch(
-    `/Dimensions/getAddDimensionBySerie?serieID=${parseInt(seriesId, 10)}`
-  )
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return Promise.reject(
-          new Error(
-            `Request failed with status code ${response.status} (${
-              response.statusText
-            })`
-          )
-        );
+  try {
+    const response = await fetch(
+      `/Dimensions/getAddDimensionBySerie?serieID=${parseInt(seriesId, 10)}`
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Request failed with status code ${response.status} (${
+          response.statusText
+        })`
+      );
+    }
+    const data = await response.json();
+    // API returns IDs as numbers which have to be converted to strings.
+    dispatch({
+      type: FETCH_DIMENSIONS_FULFILLED,
+      payload: {
+        seriesId,
+        values: data.map(dimension =>
+          (({ id, value }) => ({ id: id.toString(), value }))(dimension)
+        )
       }
-    })
-    .then(data => {
-      // API returns IDs as numbers which have to be converted to strings.
-      dispatch({
-        type: FETCH_DIMENSIONS_FULFILLED,
-        payload: {
-          seriesId,
-          values: data.map(dimension =>
-            (({ id, value }) => ({ id: id.toString(), value }))(dimension)
-          )
-        }
-      });
-    })
-    .catch(error => {
-      dispatch({
-        type: FETCH_DIMENSIONS_REJECTED,
-        payload: {
-          seriesId,
-          error: { name: error.name, message: error.message }
-        }
-      });
     });
+  } catch (e) {
+    dispatch({
+      type: FETCH_DIMENSIONS_REJECTED,
+      payload: {
+        seriesId,
+        error: { name: e.name, message: e.message }
+      }
+    });
+  }
 };
 
 export const removeDimension = (seriesId, dimensionId) => ({

@@ -40,7 +40,7 @@ describe("dimensionValueActions", () => {
       mockFetch.restore();
     });
 
-    test("successful API call", () => {
+    test("successful API call", async () => {
       mockFetch.get(
         "/DimensionValues/getAddValuesBySerie",
         {
@@ -98,12 +98,11 @@ describe("dimensionValueActions", () => {
 
       // Content of store does not matter for this test.
       const store = mockStore({});
-      return store.dispatch(fetchDimensionValues("999", "99")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      await store.dispatch(fetchDimensionValues("999", "99"));
+      expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("unsuccessful API call", () => {
+    test("unsuccessful API call", async () => {
       mockFetch.get(
         "/DimensionValues/getAddValuesBySerie",
         {
@@ -141,9 +140,8 @@ describe("dimensionValueActions", () => {
 
       // Content of store does not matter for this test.
       const store = mockStore({});
-      return store.dispatch(fetchDimensionValues("999", "99")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      await store.dispatch(fetchDimensionValues("999", "99"));
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 });

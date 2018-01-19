@@ -29,7 +29,7 @@ describe("dimensionActions", () => {
       mockFetch.restore();
     });
 
-    test("successful fetchDimensionValues API call", () => {
+    test("successful fetchDimensionValues API call", async () => {
       mockFetch.get(
         "/DimensionValues/getAddValuesBySerie",
         {
@@ -97,12 +97,11 @@ describe("dimensionActions", () => {
 
       // Content of store does not matter for this test.
       const store = mockStore({});
-      return store.dispatch(addDimension("999", "99")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      await store.dispatch(addDimension("999", "99"));
+      expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("unsuccessful fetchDimensionValues API call", () => {
+    test("unsuccessful fetchDimensionValues API call", async () => {
       mockFetch.get(
         "/DimensionValues/getAddValuesBySerie",
         {
@@ -147,9 +146,8 @@ describe("dimensionActions", () => {
 
       // Content of store does not matter for this test.
       const store = mockStore({});
-      return store.dispatch(addDimension("999", "99")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      await store.dispatch(addDimension("999", "99"));
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
@@ -171,7 +169,7 @@ describe("dimensionActions", () => {
       mockFetch.restore();
     });
 
-    test("successful API call", () => {
+    test("successful API call", async () => {
       mockFetch.get(
         "/Dimensions/getAddDimensionBySerie",
         {
@@ -222,12 +220,11 @@ describe("dimensionActions", () => {
 
       // Content of store does not matter for this test.
       const store = mockStore({});
-      return store.dispatch(fetchDimensions("999")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      await store.dispatch(fetchDimensions("999"));
+      expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("unsuccessful API call", () => {
+    test("unsuccessful API call", async () => {
       mockFetch.get(
         "/Dimensions/getAddDimensionBySerie",
         {
@@ -257,9 +254,8 @@ describe("dimensionActions", () => {
 
       // Content of store does not matter for this test.
       const store = mockStore({});
-      return store.dispatch(fetchDimensions("999")).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      await store.dispatch(fetchDimensions("999"));
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 });
