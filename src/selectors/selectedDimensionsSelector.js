@@ -1,11 +1,9 @@
-import {createSelector} from "reselect"
+import { createSelector } from "reselect";
 
 /**
- * Create memoized array from store. Each element is a selected dimension
- * represented as object with key, title, selected and selectable properties.
- * The resulting array is compatible with the ValuePickerList.
+ * Map selected dimensions to array that is compatible with Dropdown component.
  */
-const selectedDimensionsSelector = createSelector(
+const selector = createSelector(
   state => state.dimensions.selected,
   selected =>
     selected.map(dimension => ({
@@ -20,6 +18,6 @@ const selectedDimensionsSelector = createSelector(
         value: value.value
       }))
     }))
-)
+);
 
-export default selectedDimensionsSelector
+export default selector;

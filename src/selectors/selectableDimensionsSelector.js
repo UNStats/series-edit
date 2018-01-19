@@ -1,14 +1,13 @@
-import {createSelector} from "reselect"
+import { createSelector } from "reselect";
 
 /**
- * Create memoized array from store. Each element is a selectable dimension
- * represented as key/value pair. The resulting array is compatible with the
- * Dropdown component.
+ * Map selectable dimensions to array that is compatible with Dropdown
+ * component.
  */
-const selectableDimensionsSelector = createSelector(
+const selector = createSelector(
   state => state.dimensions.selectable,
   selectable =>
-    selectable.map(dimension => ({key: dimension.id, value: dimension.name}))
-)
+    selectable.map(dimension => ({ key: dimension.id, value: dimension.name }))
+);
 
-export default selectableDimensionsSelector
+export default selector;
