@@ -4,19 +4,19 @@ import {
   ADD_DIMENSION,
   REMOVE_DIMENSION,
   FETCH_DIMENSION_VALUES_FULFILLED,
-  FETCH_DIMENSIONS_FULFILLED,
-} from '../constants/ActionTypes';
+  FETCH_DIMENSIONS_FULFILLED
+} from "../constants/ActionTypes";
 
 const deepCopyDimension = dimension => ({
   ...dimension,
   selected: dimension.selected.map(value => ({ ...value })),
-  selectable: dimension.selectable.map(value => ({ ...value })),
+  selectable: dimension.selectable.map(value => ({ ...value }))
 });
 
 const deepCopyState = state => ({
   ...state,
   selected: state.selected.map(dimension => deepCopyDimension(dimension)),
-  selectable: state.selectable.map(dimension => deepCopyDimension(dimension)),
+  selectable: state.selectable.map(dimension => deepCopyDimension(dimension))
 });
 
 /**
@@ -31,13 +31,13 @@ const getElementIndex = (elements, id) =>
  */
 const removeElement = (array, index) => [
   ...array.slice(0, index),
-  ...array.slice(index + 1),
+  ...array.slice(index + 1)
 ];
 
 const dimensionsReducer = (
   state = {
     selected: [],
-    selectable: [],
+    selectable: []
   },
   action
 ) => {
@@ -101,9 +101,10 @@ const dimensionsReducer = (
         deepCopiedState.selectable,
         dimensionIndex
       );
+      // Add dimension as first element so it appears at top.
       deepCopiedState.selected = [
-        ...deepCopiedState.selected,
         { ...state.selectable[dimensionIndex] },
+        ...deepCopiedState.selected
       ];
       return deepCopiedState;
     }
@@ -122,7 +123,7 @@ const dimensionsReducer = (
       );
       deepCopiedState.selectable = [
         ...deepCopiedState.selectable,
-        { ...state.selected[dimensionIndex], selected: [], selectable: [] },
+        { ...state.selected[dimensionIndex], selected: [], selectable: [] }
       ];
       return deepCopiedState;
     }
@@ -156,7 +157,7 @@ const dimensionsReducer = (
           id: dimension.id,
           name: dimension.value,
           selected: [],
-          selectable: [],
+          selectable: []
         }));
       deepCopiedState.selectable = selectable;
       return deepCopiedState;

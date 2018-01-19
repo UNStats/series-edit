@@ -140,7 +140,7 @@ describe("dimensionsReducer", () => {
   });
 
   describe("ADD_DIMENSION", () => {
-    test("payload dimension is in selectable dimensions", () => {
+    test("payload dimension is removed from selectable and added to selected", () => {
       const stateBefore = loadedState.dimensions;
       const stateAfter = dimensionsReducer(stateBefore, {
         type: ADD_DIMENSION,
@@ -152,10 +152,10 @@ describe("dimensionsReducer", () => {
       ]);
       // Dimension with id 11 is added to selected dimensions.
       expect(stateAfter.selected.map(dimension => dimension.id)).toEqual([
+        "11",
         "4",
         "5",
-        "8",
-        "11"
+        "8"
       ]);
     });
   });
