@@ -28,7 +28,7 @@
     "@unstats/components":
       "https://github.com/UNStats/components/releases/download/0.1.0/unstats-components-v0.1.0.tgz",
     "deep-freeze": "^0.0.1",
-    "fetch-mock": "^6.0.0-beta.7",
+    "fetch-mock": "^6.0.0-beta.10",
     "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
