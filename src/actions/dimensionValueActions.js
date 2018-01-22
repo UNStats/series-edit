@@ -11,6 +11,11 @@ export const addDimensionValue = (seriesId, dimensionId, valueId) => ({
   payload: { seriesId, dimensionId, valueId }
 });
 
+export const removeDimensionValue = (seriesId, dimensionId, valueId) => ({
+  type: REMOVE_DIMENSION_VALUE,
+  payload: { seriesId, dimensionId, valueId }
+});
+
 export const fetchDimensionValues = (
   seriesId,
   dimensionId
@@ -70,8 +75,3 @@ export const fetchDimensionValues = (
     });
   }
 };
-
-export const removeDimensionValue = (seriesId, dimensionId, valueId) => ({
-  type: REMOVE_DIMENSION_VALUE,
-  payload: { seriesId, dimensionId, valueId }
-});

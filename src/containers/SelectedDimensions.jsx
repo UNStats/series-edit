@@ -1,51 +1,66 @@
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Box, ButtonOutline, Flex } from "rebass";
 import { removeDimension } from "../actions/dimensionActions";
-import {
-  addDimensionValue,
-  removeDimensionValue
-} from "../actions/dimensionValueActions";
-import getSelectedDimensions from "../selectors/selectedDimensionsSelector";
-import ValuePickerList from "../components/ValuePickerList";
+import Dimension from "./Dimension";
 
-// This component connects the Redux store to the ValuePickerList component.
+class SelectedDimensions extends Component {
+  constructor(props) {
+    super(props);
+    this.handleRemoveDimension = this.handleRemoveDimension.bind(this);
+  }
 
-// `list` array has shape required by `ValuePickerList` except for handlers.
+  handleRemoveDimension(event) {
+    event.preventDefault();
+    this.props.onRemoveDimension(event.target.value);
+  }
+
+  render() {
+    return (
+      <Box>
+        {this.props.dimensions.map(dimension => {
+          return (
+            <Flex
+              key={dimension.id}
+              direction={["column", "column", "row-reverse"]}
+              justify="space-between"
+              align={["stretch", "stretch", "flex-start"]}
+              mb={2}
+            >
+              <Box p={[1, 1, 2]} flex={2}>
+                <Dimension
+                  name={dimension.name}
+                  dimensionId={dimension.id}
+                  seriesId={this.props.seriesId}
+                />
+              </Box>
+              <Box p={[1, 1, 2]}>
+                <ButtonOutline
+                  value={dimension.id}
+                  onClick={this.handleRemoveDimension}
+                >
+                  Remove
+                </ButtonOutline>
+              </Box>
+            </Flex>
+          );
+        })}
+      </Box>
+    );
+  }
+}
+
 const mapStateToProps = state => ({
-  list: getSelectedDimensions(state),
+  dimensions: state.dimensions.selected,
   seriesId: state.series.id
 });
 
-// Parametrized handlers that need to be processed in `mergeProps`.
-const mapDispatchToProps = dispatch => ({
-  onAddValueCreator: (seriesId, dimensionId) => valueId =>
-    dispatch(addDimensionValue(seriesId, dimensionId, valueId)),
-  onRemoveValueCreator: (seriesId, dimensionId) => valueId =>
-    dispatch(removeDimensionValue(seriesId, dimensionId, valueId)),
-  onRemoveValuePickerCreator: seriesId => dimensionId =>
-    dispatch(removeDimension(seriesId, dimensionId))
+const mergeProps = (stateProps, dispatchProps) => ({
+  ...stateProps,
+  onRemoveDimension: dimensionId =>
+    dispatchProps.removeDimension(stateProps.seriesId, dimensionId)
 });
 
-const mergeProps = (stateProps, actionProps) => {
-  const { seriesId, list } = stateProps;
-  const {
-    onAddValueCreator,
-    onRemoveValueCreator,
-    onRemoveValuePickerCreator
-  } = actionProps;
-  return {
-    list: list.map(dimension => ({
-      ...dimension,
-      onAddValue: onAddValueCreator(seriesId, dimension.key),
-      onRemoveValue: onRemoveValueCreator(seriesId, dimension.key)
-    })),
-    onRemoveValuePicker: onRemoveValuePickerCreator(seriesId)
-  };
-};
-
-const SelectedDimensions = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps
-)(ValuePickerList);
-
-export default SelectedDimensions;
+export default connect(mapStateToProps, { removeDimension }, mergeProps)(
+  SelectedDimensions
+);

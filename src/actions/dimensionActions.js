@@ -15,6 +15,11 @@ export const addDimension = (seriesId, dimensionId) => dispatch => {
   return dispatch(fetchDimensionValues(seriesId, dimensionId));
 };
 
+export const removeDimension = (seriesId, dimensionId) => ({
+  type: REMOVE_DIMENSION,
+  payload: { seriesId, dimensionId }
+});
+
 // Fetch all potentially selectable dimensions for a series. Reducer figures out
 // which dimensions are actually selectable.
 export const fetchDimensions = seriesId => async dispatch => {
@@ -52,8 +57,3 @@ export const fetchDimensions = seriesId => async dispatch => {
     });
   }
 };
-
-export const removeDimension = (seriesId, dimensionId) => ({
-  type: REMOVE_DIMENSION,
-  payload: { seriesId, dimensionId }
-});
