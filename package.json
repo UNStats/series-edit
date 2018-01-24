@@ -45,6 +45,9 @@
     "release": "^3.0.3",
     "reselect": "^3.0.1"
   },
+  "jest": {
+    "collectCoverageFrom": ["src/**/*.{js,jsx}", "!src/**/index.js"]
+  },
   "eslintConfig": {
     "extends": "react-app"
   }
