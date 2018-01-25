@@ -24,8 +24,8 @@ describe("seriesActions", () => {
     test("successful API call", async () => {
       mockFetch.post("/Series/Edit/1035", { status: 200 });
       const expectedActions = [
-        { type: SAVE_SERIES, payload: { seriesId: "1035" } },
-        { type: SAVE_SERIES_FULFILLED, payload: { seriesId: "1035" } }
+        { type: SAVE_SERIES },
+        { type: SAVE_SERIES_FULFILLED }
       ];
       const store = mockStore(state);
       await store.dispatch(saveSeries("1035"));
@@ -35,11 +35,10 @@ describe("seriesActions", () => {
     test("unsuccessful API call", async () => {
       mockFetch.post("/Series/Edit/1035", { status: 500 });
       const expectedActions = [
-        { type: SAVE_SERIES, payload: { seriesId: "1035" } },
+        { type: SAVE_SERIES },
         {
           type: SAVE_SERIES_REJECTED,
           payload: {
-            seriesId: "1035",
             error: {
               name: "Error",
               message:

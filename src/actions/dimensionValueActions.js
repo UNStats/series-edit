@@ -6,14 +6,14 @@ import {
   REMOVE_DIMENSION_VALUE
 } from "../constants/ActionTypes";
 
-export const addDimensionValue = (seriesId, dimensionId, valueId) => ({
+export const addDimensionValue = (dimensionId, valueId) => ({
   type: ADD_DIMENSION_VALUE,
-  payload: { seriesId, dimensionId, valueId }
+  payload: { dimensionId, valueId }
 });
 
-export const removeDimensionValue = (seriesId, dimensionId, valueId) => ({
+export const removeDimensionValue = (dimensionId, valueId) => ({
   type: REMOVE_DIMENSION_VALUE,
-  payload: { seriesId, dimensionId, valueId }
+  payload: { dimensionId, valueId }
 });
 
 export const fetchDimensionValues = (
@@ -23,7 +23,6 @@ export const fetchDimensionValues = (
   dispatch({
     type: FETCH_DIMENSION_VALUES,
     payload: {
-      seriesId,
       dimensionId
     }
   });
@@ -57,10 +56,9 @@ export const fetchDimensionValues = (
     dispatch({
       type: FETCH_DIMENSION_VALUES_FULFILLED,
       payload: {
-        seriesId,
         dimensionId,
-        values: data.map(dimensionValue =>
-          (({ id, value }) => ({ id: id.toString(), value }))(dimensionValue)
+        values: data.map(value =>
+          (({ id, value }) => ({ id: id.toString(), value }))(value)
         )
       }
     });
@@ -68,7 +66,6 @@ export const fetchDimensionValues = (
     dispatch({
       type: FETCH_DIMENSION_VALUES_REJECTED,
       payload: {
-        seriesId,
         dimensionId,
         error: { name: e.name, message: e.message }
       }

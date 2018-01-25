@@ -16,16 +16,16 @@ import {
 
 describe("dimensionValueActions", () => {
   test("addDimensionValue", () => {
-    expect(addDimensionValue("999", "99", "9")).toEqual({
+    expect(addDimensionValue("99", "9")).toEqual({
       type: ADD_DIMENSION_VALUE,
-      payload: { seriesId: "999", dimensionId: "99", valueId: "9" }
+      payload: { dimensionId: "99", valueId: "9" }
     });
   });
 
   test("removeDimensionValue", () => {
-    expect(removeDimensionValue("999", "99", "9")).toEqual({
+    expect(removeDimensionValue("99", "9")).toEqual({
       type: REMOVE_DIMENSION_VALUE,
-      payload: { seriesId: "999", dimensionId: "99", valueId: "9" }
+      payload: { dimensionId: "99", valueId: "9" }
     });
   });
 
@@ -69,14 +69,12 @@ describe("dimensionValueActions", () => {
         {
           type: FETCH_DIMENSION_VALUES,
           payload: {
-            seriesId: "999",
             dimensionId: "99"
           }
         },
         {
           type: FETCH_DIMENSION_VALUES_FULFILLED,
           payload: {
-            seriesId: "999",
             dimensionId: "99",
             values: [
               {
@@ -120,14 +118,12 @@ describe("dimensionValueActions", () => {
         {
           type: FETCH_DIMENSION_VALUES,
           payload: {
-            seriesId: "999",
             dimensionId: "99"
           }
         },
         {
           type: FETCH_DIMENSION_VALUES_REJECTED,
           payload: {
-            seriesId: "999",
             dimensionId: "99",
             error: {
               name: "Error",

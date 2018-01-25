@@ -61,21 +61,18 @@ describe("dimensionActions", () => {
         {
           type: ADD_DIMENSION,
           payload: {
-            seriesId: "999",
             dimensionId: "99"
           }
         },
         {
           type: FETCH_DIMENSION_VALUES,
           payload: {
-            seriesId: "999",
             dimensionId: "99"
           }
         },
         {
           type: FETCH_DIMENSION_VALUES_FULFILLED,
           payload: {
-            seriesId: "999",
             dimensionId: "99",
             values: [
               {
@@ -119,21 +116,18 @@ describe("dimensionActions", () => {
         {
           type: ADD_DIMENSION,
           payload: {
-            seriesId: "999",
             dimensionId: "99"
           }
         },
         {
           type: FETCH_DIMENSION_VALUES,
           payload: {
-            seriesId: "999",
             dimensionId: "99"
           }
         },
         {
           type: FETCH_DIMENSION_VALUES_REJECTED,
           payload: {
-            seriesId: "999",
             dimensionId: "99",
             error: {
               name: "Error",
@@ -152,9 +146,9 @@ describe("dimensionActions", () => {
   });
 
   test("removeDimension", () => {
-    expect(removeDimension("999", "99")).toEqual({
+    expect(removeDimension("99")).toEqual({
       type: REMOVE_DIMENSION,
-      payload: { seriesId: "999", dimensionId: "99" }
+      payload: { dimensionId: "99" }
     });
   });
 
@@ -195,12 +189,11 @@ describe("dimensionActions", () => {
       );
 
       const expectedActions = [
-        { type: FETCH_DIMENSIONS, payload: { seriesId: "999" } },
+        { type: FETCH_DIMENSIONS },
         {
           type: FETCH_DIMENSIONS_FULFILLED,
           payload: {
-            seriesId: "999",
-            values: [
+            dimensions: [
               {
                 id: "1",
                 value: "dimension-1"
@@ -238,11 +231,10 @@ describe("dimensionActions", () => {
       );
 
       const expectedActions = [
-        { type: FETCH_DIMENSIONS, payload: { seriesId: "999" } },
+        { type: FETCH_DIMENSIONS },
         {
           type: FETCH_DIMENSIONS_REJECTED,
           payload: {
-            seriesId: "999",
             error: {
               name: "Error",
               message:
