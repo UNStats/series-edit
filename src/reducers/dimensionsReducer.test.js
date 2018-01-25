@@ -25,6 +25,7 @@ describe("dimensionsReducer", () => {
   test("invalid action", () => {
     const state = {};
     deepFreeze(state);
+    // Compare reference, not object!
     expect(reducer(state, { type: "INVALID_ACTION" })).toBe(state);
   });
 
@@ -35,7 +36,6 @@ describe("dimensionsReducer", () => {
         const stateAfter = reducer(stateBefore, {
           type: ADD_DIMENSION_VALUE,
           payload: {
-            seriesId: "1035",
             dimensionId: "4",
             valueId: "97"
           }
@@ -63,7 +63,6 @@ describe("dimensionsReducer", () => {
         const stateAfter = reducer(stateBefore, {
           type: ADD_DIMENSION_VALUE,
           payload: {
-            seriesId: "1035",
             dimensionId: "4",
             valueId: "999"
           }
@@ -77,7 +76,6 @@ describe("dimensionsReducer", () => {
       const stateAfter = reducer(stateBefore, {
         type: ADD_DIMENSION_VALUE,
         payload: {
-          seriesId: "1035",
           dimensionId: "7"
         }
       });
@@ -92,7 +90,6 @@ describe("dimensionsReducer", () => {
         const stateAfter = reducer(stateBefore, {
           type: REMOVE_DIMENSION_VALUE,
           payload: {
-            seriesId: "1035",
             dimensionId: "4",
             valueId: "93"
           }
@@ -117,7 +114,6 @@ describe("dimensionsReducer", () => {
         const stateAfter = reducer(stateBefore, {
           type: REMOVE_DIMENSION_VALUE,
           payload: {
-            seriesId: "1035",
             dimensionId: "4",
             valueId: "97"
           }
@@ -131,7 +127,6 @@ describe("dimensionsReducer", () => {
       const stateAfter = reducer(stateBefore, {
         type: REMOVE_DIMENSION_VALUE,
         payload: {
-          seriesId: "1035",
           dimensionId: "99"
         }
       });
@@ -140,11 +135,11 @@ describe("dimensionsReducer", () => {
   });
 
   describe("ADD_DIMENSION", () => {
-    test("payload dimension is removed from selectable and added to selected", () => {
+    test("payload dimension is in selectable dimensions", () => {
       const stateBefore = loadedState.dimensions;
       const stateAfter = reducer(stateBefore, {
         type: ADD_DIMENSION,
-        payload: { seriesId: "1035", dimensionId: "11" }
+        payload: { dimensionId: "11" }
       });
       // Dimension with id 11 is removed from selectable dimensions.
       expect(stateAfter.selectable.map(dimension => dimension.id)).toEqual([
@@ -158,6 +153,15 @@ describe("dimensionsReducer", () => {
         "8"
       ]);
     });
+
+    test("payload dimension is not in selectable dimensions", () => {
+      const stateBefore = loadedState.dimensions;
+      const stateAfter = reducer(stateBefore, {
+        type: ADD_DIMENSION,
+        payload: { dimensionId: "4" }
+      });
+      expect(stateAfter).toBe(stateBefore);
+    });
   });
 
   describe("REMOVE_DIMENSION", () => {
@@ -165,7 +169,7 @@ describe("dimensionsReducer", () => {
       const stateBefore = loadedState.dimensions;
       const stateAfter = reducer(stateBefore, {
         type: REMOVE_DIMENSION,
-        payload: { seriesId: "1035", dimensionId: "4" }
+        payload: { dimensionId: "4" }
       });
       // Dimension with id 4 is removed from selected dimensions.
       expect(stateAfter.selected.map(dimension => dimension.id)).toEqual([
@@ -191,7 +195,7 @@ describe("dimensionsReducer", () => {
       const stateBefore = loadedState.dimensions;
       const stateAfter = reducer(stateBefore, {
         type: REMOVE_DIMENSION,
-        payload: { seriesId: "1035", dimensionId: "11" }
+        payload: { dimensionId: "11" }
       });
       expect(stateAfter).toBe(stateBefore);
     });
@@ -204,7 +208,6 @@ describe("dimensionsReducer", () => {
         const stateAfter = reducer(stateBefore, {
           type: FETCH_DIMENSION_VALUES_FULFILLED,
           payload: {
-            seriesId: "1035",
             dimensionId: "4",
             values: [
               { id: "92", value: "C" },
@@ -239,7 +242,6 @@ describe("dimensionsReducer", () => {
         const stateAfter = reducer(stateBefore, {
           type: FETCH_DIMENSION_VALUES_FULFILLED,
           payload: {
-            seriesId: "1035",
             dimensionId: "4",
             values: [
               { id: "92", value: "C" },
@@ -265,7 +267,7 @@ describe("dimensionsReducer", () => {
       const stateBefore = preloadedState.dimensions;
       const stateAfter = reducer(stateBefore, {
         type: FETCH_DIMENSION_VALUES_FULFILLED,
-        payload: { seriesId: "1035", dimensionId: "99" }
+        payload: { dimensionId: "99" }
       });
       expect(stateAfter).toBe(stateBefore);
     });
@@ -277,8 +279,7 @@ describe("dimensionsReducer", () => {
       const stateAfter = reducer(stateBefore, {
         type: FETCH_DIMENSIONS_FULFILLED,
         payload: {
-          seriesId: "1035",
-          values: [
+          dimensions: [
             { id: "4", value: "Nature" },
             { id: "5", value: "Sex" },
             { id: "7", value: "UnitMultiplier" },
@@ -308,8 +309,7 @@ describe("dimensionsReducer", () => {
       const stateAfter = reducer(stateBefore, {
         type: FETCH_DIMENSIONS_FULFILLED,
         payload: {
-          seriesId: "1035",
-          values: [
+          dimensions: [
             { id: "4", value: "Nature" },
             { id: "5", value: "Sex" },
             { id: "8", value: "Units" }

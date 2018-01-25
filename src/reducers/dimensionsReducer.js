@@ -147,7 +147,7 @@ const dimensionsReducer = (
       return deepCopiedState;
     }
     case FETCH_DIMENSIONS_FULFILLED: {
-      const { values: dimensions } = action.payload;
+      const { dimensions } = action.payload;
       // Ensure immutability: deep copy state, then alter.
       const deepCopiedState = deepCopyState(state);
       const { selected } = state;
