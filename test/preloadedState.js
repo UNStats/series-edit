@@ -3,6 +3,7 @@ export default {
   title: "Number of deaths attributed to chronic respiratory disease",
   code: "SH_DTH_CRESPD",
   disabled: false,
+  dirty: false,
   dimensions: {
     selected: [
       {
