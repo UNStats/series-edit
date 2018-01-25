@@ -1,5 +1,5 @@
 import deepFreeze from "deep-freeze";
-import dimensionsReducer from "./dimensionsReducer";
+import reducer from "./dimensionsReducer";
 import {
   ADD_DIMENSION_VALUE,
   REMOVE_DIMENSION_VALUE,
@@ -16,7 +16,7 @@ deepFreeze(preloadedState);
 
 describe("dimensionsReducer", () => {
   test("initial state", () => {
-    expect(dimensionsReducer(undefined, {})).toEqual({
+    expect(reducer(undefined, {})).toEqual({
       selected: [],
       selectable: []
     });
@@ -25,14 +25,14 @@ describe("dimensionsReducer", () => {
   test("invalid action", () => {
     const state = {};
     deepFreeze(state);
-    expect(dimensionsReducer(state, { type: "INVALID_ACTION" })).toBe(state);
+    expect(reducer(state, { type: "INVALID_ACTION" })).toBe(state);
   });
 
   describe("ADD_DIMENSION_VALUE", () => {
     describe("payload dimension is in selected dimensions", () => {
       test("payload value is in selectable values", () => {
         const stateBefore = loadedState.dimensions;
-        const stateAfter = dimensionsReducer(stateBefore, {
+        const stateAfter = reducer(stateBefore, {
           type: ADD_DIMENSION_VALUE,
           payload: {
             seriesId: "1035",
@@ -60,7 +60,7 @@ describe("dimensionsReducer", () => {
 
       test("payload value is not in selectable values", () => {
         const stateBefore = loadedState.dimensions;
-        const stateAfter = dimensionsReducer(stateBefore, {
+        const stateAfter = reducer(stateBefore, {
           type: ADD_DIMENSION_VALUE,
           payload: {
             seriesId: "1035",
@@ -74,7 +74,7 @@ describe("dimensionsReducer", () => {
 
     test("payload dimension is not in selected dimensions", () => {
       const stateBefore = loadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: ADD_DIMENSION_VALUE,
         payload: {
           seriesId: "1035",
@@ -89,7 +89,7 @@ describe("dimensionsReducer", () => {
     describe("payload dimension is in selected dimensions", () => {
       test("payload value is in selected values", () => {
         const stateBefore = loadedState.dimensions;
-        const stateAfter = dimensionsReducer(stateBefore, {
+        const stateAfter = reducer(stateBefore, {
           type: REMOVE_DIMENSION_VALUE,
           payload: {
             seriesId: "1035",
@@ -114,7 +114,7 @@ describe("dimensionsReducer", () => {
 
       test("payload value is not in selected values", () => {
         const stateBefore = loadedState.dimensions;
-        const stateAfter = dimensionsReducer(stateBefore, {
+        const stateAfter = reducer(stateBefore, {
           type: REMOVE_DIMENSION_VALUE,
           payload: {
             seriesId: "1035",
@@ -128,7 +128,7 @@ describe("dimensionsReducer", () => {
 
     test("payload dimension is not in selected dimensions", () => {
       const stateBefore = loadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: REMOVE_DIMENSION_VALUE,
         payload: {
           seriesId: "1035",
@@ -142,7 +142,7 @@ describe("dimensionsReducer", () => {
   describe("ADD_DIMENSION", () => {
     test("payload dimension is removed from selectable and added to selected", () => {
       const stateBefore = loadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: ADD_DIMENSION,
         payload: { seriesId: "1035", dimensionId: "11" }
       });
@@ -163,7 +163,7 @@ describe("dimensionsReducer", () => {
   describe("REMOVE_DIMENSION", () => {
     test("payload dimension is in selected dimensions", () => {
       const stateBefore = loadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: REMOVE_DIMENSION,
         payload: { seriesId: "1035", dimensionId: "4" }
       });
@@ -189,7 +189,7 @@ describe("dimensionsReducer", () => {
 
     test("payload dimension is not in selected dimensions", () => {
       const stateBefore = loadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: REMOVE_DIMENSION,
         payload: { seriesId: "1035", dimensionId: "11" }
       });
@@ -201,7 +201,7 @@ describe("dimensionsReducer", () => {
     describe("payload dimension is in selected dimensions", () => {
       test("payload values contain already selected and selectable values", () => {
         const stateBefore = preloadedState.dimensions;
-        const stateAfter = dimensionsReducer(stateBefore, {
+        const stateAfter = reducer(stateBefore, {
           type: FETCH_DIMENSION_VALUES_FULFILLED,
           payload: {
             seriesId: "1035",
@@ -236,7 +236,7 @@ describe("dimensionsReducer", () => {
 
       test("payload values contain already selected values only", () => {
         const stateBefore = preloadedState.dimensions;
-        const stateAfter = dimensionsReducer(stateBefore, {
+        const stateAfter = reducer(stateBefore, {
           type: FETCH_DIMENSION_VALUES_FULFILLED,
           payload: {
             seriesId: "1035",
@@ -263,7 +263,7 @@ describe("dimensionsReducer", () => {
 
     test("payload dimension is not in selected dimensions", () => {
       const stateBefore = preloadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: FETCH_DIMENSION_VALUES_FULFILLED,
         payload: { seriesId: "1035", dimensionId: "99" }
       });
@@ -274,7 +274,7 @@ describe("dimensionsReducer", () => {
   describe("FETCH_DIMENSIONS_FULFILLED", () => {
     test("payload values contain already selected and selectable dimensions", () => {
       const stateBefore = preloadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: FETCH_DIMENSIONS_FULFILLED,
         payload: {
           seriesId: "1035",
@@ -305,7 +305,7 @@ describe("dimensionsReducer", () => {
 
     test("payload values contain already selected dimensions only", () => {
       const stateBefore = preloadedState.dimensions;
-      const stateAfter = dimensionsReducer(stateBefore, {
+      const stateAfter = reducer(stateBefore, {
         type: FETCH_DIMENSIONS_FULFILLED,
         payload: {
           seriesId: "1035",

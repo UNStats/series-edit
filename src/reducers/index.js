@@ -1,8 +1,12 @@
-import {combineReducers} from "redux"
-import dimensionsReducer from "./dimensionsReducer"
-import seriesReducer from "./seriesReducer"
+import { combineReducers } from "redux";
+import title from "./titleReducer";
+import code from "./codeReducer";
+import disabled from "./disabledReducer";
+import dimensions from "./dimensionsReducer";
 
 export default combineReducers({
-  dimensions: dimensionsReducer,
-  series: seriesReducer
-})
+  title,
+  code,
+  disabled,
+  dimensions
+});
