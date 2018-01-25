@@ -1,11 +1,8 @@
 // Loaded state (after API calls).
 export default {
-  series: {
-    id: "1035",
-    title: "Number of deaths attributed to chronic respiratory disease",
-    code: "SH_DTH_CRESPD",
-    token: "B6a95msfqF"
-  },
+  title: "Number of deaths attributed to chronic respiratory disease",
+  code: "SH_DTH_CRESPD",
+  disabled: false,
   dimensions: {
     selected: [
       {
