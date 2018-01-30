@@ -1,4 +1,3 @@
-import { fetchDimensionValues } from "./dimensionValueActions";
 import {
   ADD_DIMENSION,
   FETCH_DIMENSIONS,
@@ -7,13 +6,10 @@ import {
   REMOVE_DIMENSION
 } from "../constants/ActionTypes";
 
-export const addDimension = (seriesId, dimensionId) => dispatch => {
-  // Dispatch ADD_DIMENSION sync. This creates new dimension with empty
-  // `selectable` values. Then dispatch `fetchDimensionValues` async to fetch
-  // values for `selectable`.
-  dispatch({ type: ADD_DIMENSION, payload: { dimensionId } });
-  return dispatch(fetchDimensionValues(seriesId, dimensionId));
-};
+export const addDimension = dimensionId => ({
+  type: ADD_DIMENSION,
+  payload: { dimensionId }
+});
 
 export const removeDimension = dimensionId => ({
   type: REMOVE_DIMENSION,

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Box, ButtonOutline, Flex } from "rebass";
+import PropTypes from "prop-types";
 import { removeDimension } from "../actions/dimensionActions";
 import Dimension from "./Dimension";
 
@@ -16,9 +17,10 @@ class SelectedDimensions extends Component {
   }
 
   render() {
+    const { seriesId, dimensions } = this.props;
     return (
       <Box>
-        {this.props.dimensions.map(dimension => {
+        {dimensions.map(dimension => {
           return (
             <Flex
               key={dimension.id}
@@ -31,7 +33,7 @@ class SelectedDimensions extends Component {
                 <Dimension
                   name={dimension.name}
                   dimensionId={dimension.id}
-                  seriesId={this.props.seriesId}
+                  seriesId={seriesId}
                 />
               </Box>
               <Box p={[1, 1, 2]}>
@@ -51,16 +53,20 @@ class SelectedDimensions extends Component {
 }
 
 const mapStateToProps = state => ({
-  dimensions: state.dimensions.selected,
-  seriesId: state.series.id
+  dimensions: state.dimensions.selected
 });
 
-const mergeProps = (stateProps, dispatchProps) => ({
-  ...stateProps,
-  onRemoveDimension: dimensionId =>
-    dispatchProps.removeDimension(stateProps.seriesId, dimensionId)
+const mapDispatchToProps = dispatch => ({
+  onRemoveDimension: dimensionId => dispatch(removeDimension(dimensionId))
 });
 
-export default connect(mapStateToProps, { removeDimension }, mergeProps)(
-  SelectedDimensions
-);
+const ConnectedSelectedDimensions = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SelectedDimensions);
+
+ConnectedSelectedDimensions.propTypes = {
+  seriesId: PropTypes.string
+};
+
+export default ConnectedSelectedDimensions;

@@ -17,24 +17,17 @@ class Dimension extends Component {
   }
 
   render() {
-    const {
-      name,
-      selectable,
-      selected,
-      seriesId,
-      dimensionId,
-      dispatch
-    } = this.props;
+    const { name, selectable, selected, dimensionId, dispatch } = this.props;
     return (
       <ValuePicker
         title={name}
         selectable={selectable}
         selected={selected}
         onAddValue={valueId =>
-          dispatch(addDimensionValue(seriesId, dimensionId, valueId))
+          dispatch(addDimensionValue(dimensionId, valueId))
         }
         onRemoveValue={valueId =>
-          dispatch(removeDimensionValue(seriesId, dimensionId, valueId))
+          dispatch(removeDimensionValue(dimensionId, valueId))
         }
       />
     );
