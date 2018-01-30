@@ -1,9 +1,8 @@
 window.preloadedState = {
-  series: {
-    id: "1035",
-    title: "Number of deaths attributed to chronic respiratory disease",
-    code: "SH_DTH_CRESPD"
-  },
+  title: "Number of deaths attributed to chronic respiratory disease",
+  code: "SH_DTH_CRESPD",
+  disabled: false,
+  dirty: false,
   dimensions: {
     selected: [
       {
