@@ -44,6 +44,7 @@ describe("dimensionsReducer", () => {
         expect(stateAfter.selected[0]).toEqual({
           id: "4",
           name: "Nature",
+          disabled: false,
           selected: [
             { id: "92", value: "C" },
             { id: "93", value: "CA" },
@@ -98,6 +99,7 @@ describe("dimensionsReducer", () => {
         expect(stateAfter.selected[0]).toEqual({
           id: "4",
           name: "Nature",
+          disabled: false,
           selected: [{ id: "92", value: "C" }, { id: "94", value: "E" }],
           selectable: [
             { id: "95", value: "G" },
@@ -186,6 +188,7 @@ describe("dimensionsReducer", () => {
       expect(stateAfter.selectable[2]).toEqual({
         id: "4",
         name: "Nature",
+        disabled: false,
         selected: [],
         selectable: []
       });
@@ -223,6 +226,7 @@ describe("dimensionsReducer", () => {
         expect(stateAfter.selected[0]).toEqual({
           id: "4",
           name: "Nature",
+          disabled: false,
           selected: [
             { id: "92", value: "C" },
             { id: "93", value: "CA" },
@@ -253,6 +257,7 @@ describe("dimensionsReducer", () => {
         expect(stateAfter.selected[0]).toEqual({
           id: "4",
           name: "Nature",
+          disabled: false,
           selected: [
             { id: "92", value: "C" },
             { id: "93", value: "CA" },
@@ -292,12 +297,14 @@ describe("dimensionsReducer", () => {
         {
           id: "7",
           name: "UnitMultiplier",
+          disabled: true,
           selected: [],
           selectable: []
         },
         {
           id: "11",
           name: "Scenario",
+          disabled: true,
           selected: [],
           selectable: []
         }

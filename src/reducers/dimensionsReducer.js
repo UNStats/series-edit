@@ -144,6 +144,7 @@ const dimensionsReducer = (
         .filter(value => getElementIndex(selected, value.id) < 0)
         .map(value => ({ ...value }));
       dimension.selectable = selectable;
+      dimension.disabled = false;
       return deepCopiedState;
     }
     case FETCH_DIMENSIONS_FULFILLED: {
@@ -156,6 +157,7 @@ const dimensionsReducer = (
         .map(dimension => ({
           id: dimension.id,
           name: dimension.value,
+          disabled: true,
           selected: [],
           selectable: []
         }));
