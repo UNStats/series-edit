@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "@unstats/components":
-      "https://github.com/UNStats/components/releases/download/0.1.0/unstats-components-v0.1.0.tgz",
+      "https://github.com/UNStats/components/releases/download/0.2.0/unstats-components-v0.2.0.tgz",
     "deep-freeze": "^0.0.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "fetch-mock": "^6.0.0-beta.10",
     "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
@@ -37,6 +39,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-scripts": "^1.1.0",
+    "react-test-renderer": "^16.2.0",
     "rebass": "^1.0.4",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
