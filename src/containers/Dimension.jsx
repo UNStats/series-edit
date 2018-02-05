@@ -8,19 +8,39 @@ import {
 } from "../actions/dimensionValueActions";
 import getSelectableDimensionValues from "../selectors/selectableDimensionValuesSelector";
 import getSelectedDimensionValues from "../selectors/selectedDimensionValuesSelector";
+import isSelectedDimensionDisabled from "../selectors/isSelectedDimensionDisabledSelector";
 import { ValuePicker } from "@unstats/components";
 
 class Dimension extends Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    seriesId: PropTypes.string.isRequired,
+    dimensionId: PropTypes.string.isRequired,
+    selectable: PropTypes.array.isRequired,
+    selected: PropTypes.array.isRequired
+  };
+
   componentDidMount() {
-    const { dispatch, seriesId, dimensionId } = this.props;
-    dispatch(fetchDimensionValues(seriesId, dimensionId));
+    const { dispatch, seriesId, dimensionId, selectable } = this.props;
+    // Fetch dimension values only if selectable values are empty.
+    if (selectable.length === 0) {
+      dispatch(fetchDimensionValues(seriesId, dimensionId));
+    }
   }
 
   render() {
-    const { name, selectable, selected, dimensionId, dispatch } = this.props;
+    const {
+      name,
+      disabled,
+      selectable,
+      selected,
+      dimensionId,
+      dispatch
+    } = this.props;
     return (
       <ValuePicker
         title={name}
+        disabled={disabled}
         selectable={selectable}
         selected={selected}
         onAddValue={valueId =>
@@ -34,18 +54,20 @@ class Dimension extends Component {
   }
 }
 
-// Subscribe to store.
-const mapStateToProps = (state, props) => ({
-  selectable: getSelectableDimensionValues(props.dimensionId)(state),
-  selected: getSelectedDimensionValues(props.dimensionId)(state)
-});
-
-const ConnectedDimension = connect(mapStateToProps)(Dimension);
+const ConnectedDimension = connect((state, { disabled, dimensionId }) => ({
+  disabled: isSelectedDimensionDisabled(dimensionId)(state) || disabled,
+  selectable: getSelectableDimensionValues(dimensionId)(state),
+  selected: getSelectedDimensionValues(dimensionId)(state)
+}))(Dimension);
 
 ConnectedDimension.propTypes = {
-  name: PropTypes.string,
-  seriesId: PropTypes.string,
-  dimensionId: PropTypes.string
+  name: PropTypes.string.isRequired,
+  seriesId: PropTypes.string.isRequired,
+  dimensionId: PropTypes.string.isRequired
+};
+
+ConnectedDimension.defaultProps = {
+  disabled: false
 };
 
 export default ConnectedDimension;
