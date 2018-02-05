@@ -9,6 +9,7 @@ export default {
       {
         id: "4",
         name: "Nature",
+        disabled: false,
         selected: [
           { id: "92", value: "C" },
           { id: "93", value: "CA" },
@@ -24,12 +25,14 @@ export default {
       {
         id: "5",
         name: "Sex",
+        disabled: false,
         selected: [{ id: "99", value: "Female" }, { id: "100", value: "Male" }],
         selectable: [{ id: "101", value: "Both" }]
       },
       {
         id: "8",
         name: "Units",
+        disabled: false,
         selected: [{ id: "102", value: "USD" }, { id: "103", value: "LCU" }],
         selectable: [
           { id: "104", value: "mgr/m^3" },
@@ -43,12 +46,14 @@ export default {
       {
         id: "7",
         name: "UnitMultiplier",
+        disabled: true,
         selected: [],
         selectable: []
       },
       {
         id: "11",
         name: "Scenario",
+        disabled: true,
         selected: [],
         selectable: []
       }
