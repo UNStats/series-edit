@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { connect } from "react-redux";
 import { Box } from "rebass";
 import PropTypes from "prop-types";
@@ -8,17 +7,26 @@ import getSelectableDimensions from "../selectors/selectableDimensionsSelector";
 import { Dropdown } from "@unstats/components";
 
 class SelectableDimensions extends Component {
+  static propTypes = {
+    seriesId: PropTypes.string.isRequired,
+    dimensions: PropTypes.array.isRequired,
+    disabled: PropTypes.bool.isRequired
+  };
+
   componentDidMount() {
-    const { dispatch, seriesId } = this.props;
-    dispatch(fetchDimensions(seriesId));
+    const { dispatch, seriesId, dimensions } = this.props;
+    // Fetch dimensions only if dimensions are empty.
+    if (dimensions.length === 0) {
+      dispatch(fetchDimensions(seriesId));
+    }
   }
 
   render() {
-    const { options, disabled, dispatch } = this.props;
+    const { dimensions, disabled, dispatch } = this.props;
     return (
       <Box p={[1, 1, 2]}>
         <Dropdown
-          options={options}
+          options={dimensions}
           placeholder="Add dimension..."
           disabled={disabled}
           onChange={dimensionId => dispatch(addDimension(dimensionId))}
@@ -28,18 +36,18 @@ class SelectableDimensions extends Component {
   }
 }
 
-// Subscribe to store.
-const mapStateToProps = state => ({
-  options: getSelectableDimensions(state),
-  disabled: state.dimensions.selectable.fetching
-});
-
-const ConnectedSelectableDimensions = connect(mapStateToProps)(
-  SelectableDimensions
-);
+const ConnectedSelectableDimensions = connect((state, { disabled }) => ({
+  dimensions: getSelectableDimensions(state),
+  disabled: state.disabled || disabled
+}))(SelectableDimensions);
 
 ConnectedSelectableDimensions.propTypes = {
-  seriesId: PropTypes.string
+  seriesId: PropTypes.string.isRequired,
+  disabled: PropTypes.bool
+};
+
+ConnectedSelectableDimensions.defaultProps = {
+  disabled: false
 };
 
 export default ConnectedSelectableDimensions;
