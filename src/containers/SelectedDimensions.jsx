@@ -6,6 +6,13 @@ import { removeDimension } from "../actions/dimensionActions";
 import Dimension from "./Dimension";
 
 class SelectedDimensions extends Component {
+  static propTypes = {
+    disabled: PropTypes.bool.isRequired,
+    seriesId: PropTypes.string.isRequired,
+    dimensions: PropTypes.array.isRequired,
+    onRemoveDimension: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.handleRemoveDimension = this.handleRemoveDimension.bind(this);
@@ -17,7 +24,7 @@ class SelectedDimensions extends Component {
   }
 
   render() {
-    const { seriesId, dimensions } = this.props;
+    const { disabled, seriesId, dimensions } = this.props;
     return (
       <Box>
         {dimensions.map(dimension => {
@@ -32,6 +39,7 @@ class SelectedDimensions extends Component {
               <Box p={[1, 1, 2]} flex={2}>
                 <Dimension
                   name={dimension.name}
+                  disabled={disabled}
                   dimensionId={dimension.id}
                   seriesId={seriesId}
                 />
@@ -39,6 +47,7 @@ class SelectedDimensions extends Component {
               <Box p={[1, 1, 2]}>
                 <ButtonOutline
                   value={dimension.id}
+                  disabled={disabled}
                   onClick={this.handleRemoveDimension}
                 >
                   Remove
@@ -52,21 +61,23 @@ class SelectedDimensions extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  dimensions: state.dimensions.selected
-});
-
-const mapDispatchToProps = dispatch => ({
-  onRemoveDimension: dimensionId => dispatch(removeDimension(dimensionId))
-});
-
 const ConnectedSelectedDimensions = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state, { disabled }) => ({
+    dimensions: state.dimensions.selected,
+    disabled: state.disabled || disabled
+  }),
+  dispatch => ({
+    onRemoveDimension: dimensionId => dispatch(removeDimension(dimensionId))
+  })
 )(SelectedDimensions);
 
 ConnectedSelectedDimensions.propTypes = {
-  seriesId: PropTypes.string
+  seriesId: PropTypes.string.isRequired,
+  disabled: PropTypes.bool
+};
+
+ConnectedSelectedDimensions.defaultProps = {
+  disabled: false
 };
 
 export default ConnectedSelectedDimensions;
