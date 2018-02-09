@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import SelectableDimensions from "./SelectableDimensions";
+import SelectableDimensionsFactory from "./SelectableDimensionsFactory";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -8,14 +8,18 @@ import loadedState from "../../test/loadedState";
 import preloadedState from "../../test/preloadedState";
 import { ADD_DIMENSION, FETCH_DIMENSIONS } from "../constants/ActionTypes";
 
-// TODO test disabled
-
 describe("SelectableDimensions", () => {
+  let SelectableDimensions;
+
+  beforeAll(() => {
+    SelectableDimensions = SelectableDimensionsFactory("1035");
+  });
+
   test("renders Dropdown with non-empty selectable dimensions", () => {
     const store = configureMockStore([thunk])(loadedState);
     const dropdown = mount(
       <Provider store={store}>
-        <SelectableDimensions seriesId="1035" />
+        <SelectableDimensions />
       </Provider>
     ).find("Dropdown");
     // No need to test actual rendering of Dropdown. This is done in
@@ -40,7 +44,7 @@ describe("SelectableDimensions", () => {
     const store = configureMockStore([thunk])(preloadedState);
     const dropdown = mount(
       <Provider store={store}>
-        <SelectableDimensions seriesId="1035" />
+        <SelectableDimensions />
       </Provider>
     ).find("Dropdown");
     const {
@@ -65,7 +69,7 @@ describe("SelectableDimensions", () => {
     const store = configureMockStore([thunk])(loadedState);
     const dropdown = mount(
       <Provider store={store}>
-        <SelectableDimensions disabled={true} seriesId="1035" />
+        <SelectableDimensions disabled={true} />
       </Provider>
     ).find("Dropdown");
     expect(dropdown.props().disabled).toEqual(true);
@@ -75,7 +79,7 @@ describe("SelectableDimensions", () => {
     const store = configureMockStore([thunk])(loadedState);
     const select = mount(
       <Provider store={store}>
-        <SelectableDimensions seriesId="1035" />
+        <SelectableDimensions />
       </Provider>
     ).find("select");
     select.simulate("change", { target: { value: "11" } });
