@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import Dimension from "./Dimension";
+import DimensionFactory from "./DimensionFactory";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -12,12 +12,18 @@ import {
   FETCH_DIMENSION_VALUES
 } from "../constants/ActionTypes";
 
-describe("Dimension", () => {
+describe("DimensionFactory", () => {
+  let Dimension;
+
+  beforeAll(() => {
+    Dimension = DimensionFactory("1035", "4");
+  });
+
   test("renders ValuePicker with non-empty selectable values", () => {
     const store = configureMockStore([thunk])(loadedState);
     const valuePicker = mount(
       <Provider store={store}>
-        <Dimension name="Nature" seriesId="1035" dimensionId="4" />
+        <Dimension name="Nature" />
       </Provider>
     ).find("ValuePicker");
     // No need to test actual rendering of ValuePicker. This is done in
@@ -56,7 +62,7 @@ describe("Dimension", () => {
     const store = configureMockStore([thunk])(preloadedState);
     const valuePicker = mount(
       <Provider store={store}>
-        <Dimension name="Nature" seriesId="1035" dimensionId="4" />
+        <Dimension name="Nature" />
       </Provider>
     ).find("ValuePicker");
     // No need to test actual rendering of ValuePicker. This is done in
@@ -86,11 +92,21 @@ describe("Dimension", () => {
     ]);
   });
 
+  test("disable", () => {
+    const store = configureMockStore([thunk])(loadedState);
+    const valuePicker = mount(
+      <Provider store={store}>
+        <Dimension name="Nature" disabled={true} />
+      </Provider>
+    ).find("ValuePicker");
+    expect(valuePicker.props().disabled).toEqual(true);
+  });
+
   test("onAddValue handler", () => {
     const store = configureMockStore([thunk])(loadedState);
     const select = mount(
       <Provider store={store}>
-        <Dimension name="Nature" seriesId="1035" dimensionId="4" />
+        <Dimension name="Nature" />
       </Provider>
     ).find("select");
     select.simulate("change", {
@@ -108,7 +124,7 @@ describe("Dimension", () => {
     const store = configureMockStore([thunk])(loadedState);
     mount(
       <Provider store={store}>
-        <Dimension name="Nature" seriesId="1035" dimensionId="4" />
+        <Dimension name="Nature" />
       </Provider>
     )
       .find('button[value="93"]')
