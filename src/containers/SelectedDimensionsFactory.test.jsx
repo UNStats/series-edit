@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import SelectedDimensions from "./SelectedDimensions";
+import SelectedDimensionsFactory from "./SelectedDimensionsFactory";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -12,11 +12,17 @@ import {
 } from "../constants/ActionTypes";
 
 describe("SelectedDimensions", () => {
+  let SelectedDimensions;
+
+  beforeAll(() => {
+    SelectedDimensions = SelectedDimensionsFactory("1035");
+  });
+
   test("renders selected dimensions correctly", () => {
     const store = configureMockStore([thunk])(loadedState);
     const dimensions = mount(
       <Provider store={store}>
-        <SelectedDimensions seriesId="1035" />
+        <SelectedDimensions />
       </Provider>
     ).find("Dimension");
     expect(dimensions.length).toEqual(3);
@@ -25,19 +31,9 @@ describe("SelectedDimensions", () => {
     let dimension = dimensions.at(0);
     let props = dimension.props();
     expect(Object.keys(props).length).toEqual(7);
-    let {
-      name,
-      disabled,
-      seriesId,
-      dimensionId,
-      selectable,
-      selected,
-      dispatch
-    } = props;
+    let { name, disabled, selectable, selected } = props;
     expect(name).toEqual("Nature");
     expect(disabled).toEqual(false);
-    expect(seriesId).toEqual("1035");
-    expect(dimensionId).toEqual("4");
     expect(selectable).toEqual([
       { key: "95", value: "G" },
       { key: "96", value: "M" },
@@ -49,51 +45,27 @@ describe("SelectedDimensions", () => {
       { key: "93", value: "CA" },
       { key: "94", value: "E" }
     ]);
-    expect(dispatch).toBeDefined();
 
     // Check "Sex" dimension.
     dimension = dimensions.at(1);
     props = dimension.props();
     expect(Object.keys(props).length).toEqual(7);
-    ({
-      name,
-      disabled,
-      seriesId,
-      dimensionId,
-      selectable,
-      selected,
-      dispatch
-    } = props);
-    debugger;
+    ({ name, disabled, selectable, selected } = props);
     expect(name).toEqual("Sex");
     expect(disabled).toEqual(false);
-    expect(seriesId).toEqual("1035");
-    expect(dimensionId).toEqual("5");
     expect(selectable).toEqual([{ key: "101", value: "Both" }]);
     expect(selected).toEqual([
       { key: "99", value: "Female" },
       { key: "100", value: "Male" }
     ]);
-    expect(dispatch).toBeDefined();
 
     // Check "Units" dimension.
     dimension = dimensions.at(2);
     props = dimension.props();
     expect(Object.keys(props).length).toEqual(7);
-    ({
-      name,
-      disabled,
-      seriesId,
-      dimensionId,
-      selectable,
-      selected,
-      dispatch
-    } = props);
-    debugger;
+    ({ name, disabled, selectable, selected } = props);
     expect(name).toEqual("Units");
     expect(disabled).toEqual(false);
-    expect(seriesId).toEqual("1035");
-    expect(dimensionId).toEqual("8");
     expect(selectable).toEqual([
       { key: "104", value: "mgr/m^3" },
       { key: "105", value: "h" },
@@ -104,14 +76,13 @@ describe("SelectedDimensions", () => {
       { key: "102", value: "USD" },
       { key: "103", value: "LCU" }
     ]);
-    expect(dispatch).toBeDefined();
   });
 
   test("runs no initialization actions when rendered with loadedState", () => {
     const store = configureMockStore([thunk])(loadedState);
     mount(
       <Provider store={store}>
-        <SelectedDimensions seriesId="1035" />
+        <SelectedDimensions />
       </Provider>
     );
     expect(store.getActions()).toEqual([]);
@@ -121,7 +92,7 @@ describe("SelectedDimensions", () => {
     const store = configureMockStore([thunk])(preloadedState);
     mount(
       <Provider store={store}>
-        <SelectedDimensions seriesId="1035" />
+        <SelectedDimensions />
       </Provider>
     );
     expect(store.getActions()).toEqual([
@@ -150,7 +121,7 @@ describe("SelectedDimensions", () => {
     const store = configureMockStore([thunk])(loadedState);
     const wrapper = mount(
       <Provider store={store}>
-        <SelectedDimensions disabled={true} seriesId="1035" />
+        <SelectedDimensions disabled={true} />
       </Provider>
     );
 
@@ -172,7 +143,7 @@ describe("SelectedDimensions", () => {
     const store = configureMockStore([thunk])(loadedState);
     const removeButtons = mount(
       <Provider store={store}>
-        <SelectedDimensions seriesId="1035" />
+        <SelectedDimensions />
       </Provider>
     ).find('button[children="Remove"]');
     expect(removeButtons.length).toEqual(3);
