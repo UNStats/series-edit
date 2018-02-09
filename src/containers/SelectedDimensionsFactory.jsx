@@ -28,6 +28,8 @@ const SelectedDimensionsFactory = seriesId => {
       return (
         <Box>
           {dimensions.map(dimension => {
+            // DimensionFactory cached connected dimension to ensure that same
+            // component is re-renderd.
             const Dimension = DimensionFactory(seriesId, dimension.id);
             return (
               <Flex
