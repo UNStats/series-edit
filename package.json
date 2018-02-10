@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@unstats/series-edit",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "UNStats Series-Edit App",
   "homepage": "https://unstats.github.io/series-edit/",
   "bugs": "https://github.com/UNStats/series-edit/issues",
