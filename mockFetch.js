@@ -88,3 +88,7 @@ window.fetchMock.get(
     ]
   }
 );
+
+window.fetchMock.post("/Series/Edit/1035", {
+  status: 200
+});
