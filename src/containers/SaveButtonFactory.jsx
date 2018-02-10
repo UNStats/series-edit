@@ -17,14 +17,14 @@ SaveButton.propTypes = {
   onClick: PropTypes.func.isRequired
 };
 
-const ConnectedSaveButtonFactory = seriesId => {
+const ConnectedSaveButtonFactory = (seriesId, token) => {
   const ConnectedSaveButton = connect(
     (state, { disabled }) => ({
       disabled: state.disabled || !state.dirty || disabled
     }),
     // Bake seriedId into handler.
     dispatch => ({
-      onClick: () => dispatch(saveSeries(seriesId))
+      onClick: () => dispatch(saveSeries(seriesId, token))
     })
   )(SaveButton);
 
